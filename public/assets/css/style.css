@@ -1,0 +1,34 @@
+div > img{
+    width: 100%;
+    height: 100%;
+}
+
+@media print{
+    @page {
+        size: landscape;
+    }
+    .page-break{
+        page-break-before: always;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    .print-layouts, .print-layouts * {
+        visibility: visible;
+    }
+
+    #layout{
+        width: 100%;
+        border-color: red;
+        background-color:yellowgreen;
+        height: 100%;
+    }
+    #c{
+        visibility: visible;
+        height: 100%;
+        background-color: aqua;
+    }
+
+}
