@@ -5,18 +5,6 @@
     <div>
     <div class="container-fluid sticky-top bg-light">
         <div class="row">
-            {{-- @foreach ($layouts as $item)
-            <div class="col">
-                <form action="{{url('layouts')}}" method="get" class="dropdown-item">
-                @csrf
-                    <input type="hidden" name="id_user" value="{{$id}}">
-                    <input type="hidden" name="id_layouts" value="{{$item->id}}">
-                    <p class="text-center">{{$item->nama}}</p>
-                    <img src="{{asset('assets/images/layouts/'.$item->image)}}" onclick="submit()" width="100%" height="70px">
-                </form>
-                <hr>
-            </div>
-            @endforeach --}}
             <button type="button" class="btn btn-primary mt-2 ml-5" data-toggle="modal" data-target="#exampleModal">
                 Layouts
             </button>
@@ -106,40 +94,39 @@
 
     </div>
 
+    {{-- Modal --}}
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:100%">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Layout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        @foreach ($layouts as $item)
+                <div class="col col-4">
+                    <form action="{{url('layouts')}}" method="get" class="dropdown-item">
+                    @csrf
+                        <input type="hidden" name="id_user" value="{{$id}}">
+                        <input type="hidden" name="id_layouts" value="{{$item->id}}">
+                        <p class="text-center">{{$item->nama}}</p>
+                        <img src="{{asset('assets/images/layouts/'.$item->image)}}" onclick="submit()" width="100%" height="70px">
+                    </form>
+                    <hr>
+                </div>
+                @endforeach
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
     @endsection
 
         <!-- Button trigger modal -->
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:100%">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Layout</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    @foreach ($layouts as $item)
-            <div class="col col-4">
-                <form action="{{url('layouts')}}" method="get" class="dropdown-item">
-                @csrf
-                    <input type="hidden" name="id_user" value="{{$id}}">
-                    <input type="hidden" name="id_layouts" value="{{$item->id}}">
-                    <p class="text-center">{{$item->nama}}</p>
-                    <img src="{{asset('assets/images/layouts/'.$item->image)}}" onclick="submit()" width="100%" height="70px">
-                </form>
-                <hr>
-            </div>
-            @endforeach
-                </div>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-        </div>
-    </div>

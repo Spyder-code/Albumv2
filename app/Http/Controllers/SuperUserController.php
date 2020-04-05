@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Task;
-use App\Customer;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\User;
+use App\UserLayout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -192,11 +193,14 @@ class SuperUserController extends Controller
 
     public function createTasks(Request $request)
     {
-        $request->validate([
+        $validasi = Validator::make(request()->all(),[
             'pesan' => 'required',
         ]);
 
-        User::where('id', $request->id)
+        if($validasi->fails()){
+            return back()->with(['danger' => 'Pesan harus diisi']);
+        }else{
+            User::where('id', $request->id)
             ->update([
                 'hit' => $request->hit + 1
             ]);
@@ -206,9 +210,8 @@ class SuperUserController extends Controller
             'pesan' => $request->pesan,
             'status' => 0
         ]);
-
-
-        return redirect('superUser/tasks');
+        return back()->with(['success' => 'Task berhasil ditambahkan']);
+        }
     }
 
     /**
@@ -283,14 +286,26 @@ class SuperUserController extends Controller
      */
     public function destroyAdmin(Request $request)
     {
-        User::destroy('id', $request->id);
-        return redirect('superUser/admin');
+        $task = Task::all()->where('id_admin',$request->id)->first();
+        if($task!=null){
+            return back()->with(['danger' => 'Data tidak dapat dihapus karena memiliki relasi']);
+        }else{
+            User::destroy('id', $request->id);
+            return back()->with(['success' => 'Data berhasil dihapus']);
+
+        }
     }
 
     public function destroyCustomer(Request $request)
     {
-        User::destroy('id', $request->id);
-        return redirect('superUser/customer');
+        $layout = UserLayout::where('id_user',$request->id)->first();
+        $task = Task::all()->where('id_customer',$request->id)->first();
+        if ($task==null && $layout==null) {
+            User::destroy('id', $request->id);
+            return back()->with(['success' => 'Data berhasil dihapus']);
+        } else {
+            return back()->with(['danger' => 'Data tidak dapat dihapus karena memiliki relasi']);
+        }
     }
 
     public function destroyTask(Request $request)

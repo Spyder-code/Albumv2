@@ -36,7 +36,12 @@
                     cursor: "crosshair",
                     start:function(event,ui){
 
-                        $(this).css({"width":"150px","height":"150px","position":"absolute"})
+                        $(this).css({
+                            "width":"150px",
+                            "height":"150px",
+                            "position":"absolute",
+                            "z-index" : "9999"
+                            })
                         $(this).draggable("option","cursorAt",{
                             left:Math.floor(this.clientWidth / 2),
                             top:Math.floor(this.clientHeight / 2)
@@ -68,16 +73,18 @@
                         data: {drop:drop, drag:drag, idDrop:idDrop, idDrag:idDrag},
                         success: function(data) {
                         console.log('success');
-                            event.preventDefault();
-                            console.log("success");
-
+                        $(".loader").show();
+                        location.reload();
+                            // $(".loader").hide();
                         }
                     });
-                    return false;
                 }
             });
         } );
         </script>
+    <div class="containerLoader">
+        <div class="loader" style="display:none; background:url({{asset('assets/images/color-loading.gif')}}) 50% 50% no-repeat;"></div>
+    </div>
     <div class="jumbotron text-center mt" style="background-image:url({{ asset('assets/images/background/background.jpg') }})">
         <h1 class="border" style="background-color:white; border-radius:18px; width:30%; margin-left:35%; border-color:yellow">Album Foto Editor</h1>
     </div>

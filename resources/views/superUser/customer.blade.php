@@ -3,6 +3,32 @@
 @section('level','Super User')
 @section('profileImage',$image)
 @section('content')
+<div class="container">
+    <div class="row">
+        <div class="col">
+            @if ($message = Session::get('success'))
+            <div class="row">
+                <div class="col mt-3">
+                    <div class="alert alert-success alert-block">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if ($message = Session::get('danger'))
+            <div class="row">
+                <div class="col mt-3">
+                    <div class="alert alert-danger alert-block">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
+                </div>
+            </div>
+        @endif
+        </div>
+    </div>
+</div>
 <div class="card-header text-center">
     <h3>Tanggal sekarang {{date("d, F Y ")}}</h3>
     <h6>Jumlah data {{$total}}</h6>

@@ -124,12 +124,13 @@ class AdminController extends Controller
 
     public function download(Request $request)
     {
-        $zip = new ZipArchive;
+        if (File::exists(public_path('assets/images/'.$request->name))) {
+            $zip = new ZipArchive;
 
-        $fileName = $request->nama . '.zip';
+        $fileName = $request->name . '.zip';
 
         if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-            $files = File::files(public_path('assets/images/' . $request->nama . '*'));
+            $files = File::files(public_path('assets/images/' . $request->name . '*'));
 
             foreach ($files as $key => $value) {
                 $relativeNameInZipFile = basename($value);
@@ -138,8 +139,10 @@ class AdminController extends Controller
 
             $zip->close();
         }
-
         return response()->download(public_path($fileName));
+        } else {
+            return back()->with(['danger' => 'Data Kosong']);
+        }
     }
 
     public function destroy(Request $request)
@@ -150,8 +153,9 @@ class AdminController extends Controller
             $folderPath = public_path('assets/images/' . $request->nama);
             File::deleteDirectory($folderPath);
             DB::delete('delete from albums where id_user = ' . $request->id);
-            return redirect('admin/task');
+            UserLayout::where('id_user',$request->id)->delete();
+            return back()->with(['success' => 'Data berhasil dihapus']);
         }
-        return redirect('admin/task');
+        return back()->with(['success' => 'Data sudah dihapus']);
     }
 }
